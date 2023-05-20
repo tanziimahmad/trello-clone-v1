@@ -32,3 +32,9 @@ export const getMe = (apiKey, apiToken) =>
 
 export const getBoards = (id, apiKey, apiToken) =>
   api.get(`/organizations/${id}/boards?key=${apiKey}&token=${apiToken}`);
+
+export const updateBoard = (id, apiKey, apiToken, data) =>
+  api.put(`boards/${id}?key=${apiKey}&token=${apiToken}`, data);
+
+export const createBoard = (name, apiKey, apiToken) =>
+  api.post(`/boards/?name=${name}&key=${apiKey}&token=${apiToken}`);
