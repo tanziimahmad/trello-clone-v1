@@ -8,7 +8,7 @@ import {
 } from "@/api/apiService";
 import BoardForm from "@/components/BoardForm";
 import Boards from "@/components/Boards";
-import Modal from "@/components/modal";
+import Modal from "@/components/Modal";
 import useUtility from "@/hooks/useUtilityContext";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";

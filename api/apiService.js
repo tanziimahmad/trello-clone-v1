@@ -38,3 +38,6 @@ export const updateBoard = (id, apiKey, apiToken, data) =>
 
 export const createBoard = (name, apiKey, apiToken) =>
   api.post(`/boards/?name=${name}&key=${apiKey}&token=${apiToken}`);
+
+export const getBoardDetails = (id, apiKey, apiToken) =>
+  api.get(`boards/${id}?key=${apiKey}&token=${apiToken}`);
