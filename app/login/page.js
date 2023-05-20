@@ -1,47 +1,83 @@
-"use client"
+"use client";
+import { getMe } from "@/api/apiService";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
-
 export default function Page() {
-  const [organName, setOrganName] = useState("");
+  const router = useRouter();
+  console.log(router);
+  const [credential, setCredential] = useState({
+    apiKey: "",
+    apiToken: "",
+  });
 
   const handleOnChange = (e) => {
-    const value = e.target.value;
-    setOrganName(value);
+    const { value, name } = e.target;
+
+    setCredential((prevCredentials) => ({ ...prevCredentials, [name]: value }));
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    const { apiKey, apiToken } = credential;
+    console.log(credential);
 
-    // try {
-    //   const response = await createOrganization(organName);
-    //   console.log("Organization created:", response.data);
+    try {
+      const response = await getMe(apiKey, apiToken);
+      console.log("Organization created:", response.data.idOrganizations[0]);
 
-    //   // Handle success or perform any further actions
-    // } catch (error) {
-    //   console.error("Error creating organization:", error.message);
+      const organizationId = response.data.idOrganizations[0];
 
-    //   // Handle error or display error message
-    // }
+      sessionStorage.setItem("organizationId", organizationId);
+      sessionStorage.setItem("apiKey", apiKey);
+      sessionStorage.setItem("apiToken", apiToken);
+      router.push("/");
+
+      // Handle success or perform any further actions
+    } catch (error) {
+      console.error("Error creating organization:", error.message);
+
+      // Handle error or display error message
+    }
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="displayName"
-          value={organName}
-          onChange={handleOnChange}
-          className=" text-black rounded-md px-4 py-2 border borde0.r-black mx-4"
-          placeholder="Organization Name"
-        />
-        <button
-          type="submit"
-          className="bg-blue-500 text-white rounded-md px-4 py-2"
-        >
-          Create Organization
-        </button>
+    <div className="flex items-center justify-center w-2/5 h-screen m-auto ">
+      <form
+        onSubmit={handleSubmit}
+        className="w-full p-6 border border-black rounded-2xl"
+      >
+        <div>
+          <p> Welcome to Trello Clone</p>
+        </div>
+        <div>
+          <input
+            type="text"
+            name="apiKey"
+            value={credential.apiKey}
+            onChange={handleOnChange}
+            className="w-full px-4 py-2 mb-4 text-black border rounded-md"
+            placeholder="API Key"
+          />
+        </div>
+        <div>
+          <input
+            type="text"
+            name="apiToken"
+            value={credential.apiToken}
+            onChange={handleOnChange}
+            className="w-full px-4 py-2 mb-4 text-black border rounded-md"
+            placeholder="API Token"
+          />
+        </div>
+        <div>
+          <button
+            type="submit"
+            className="w-full px-4 py-2 text-white bg-blue-500 rounded-md"
+          >
+            Create Organization
+          </button>
+        </div>
       </form>
     </div>
   );
