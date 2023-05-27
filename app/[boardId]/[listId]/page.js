@@ -68,7 +68,7 @@ const SingleList = ({ params }) => {
             );
           })}
           <div className="col-span-1">
-            <Button onClick={setModalIsOpen}> Create List</Button>
+            <Button onClick={setModalIsOpen}> Create Card</Button>
           </div>
         </div>
       </div>
